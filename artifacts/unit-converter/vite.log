@@ -1,0 +1,7 @@
+
+> @workspace/unit-converter@0.0.0 dev C:\Users\Siddique\Desktop\hiqain-projects\unit-converter\artifacts\unit-converter
+> vite --config vite.config.ts --host 0.0.0.0
+
+C:\Users\Siddique\Desktop\hiqain-projects\unit-converter\artifacts\unit-converter:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/unit-converter@0.0.0 dev: `vite --config vite.config.ts --host 0.0.0.0`
+Exit status 1
