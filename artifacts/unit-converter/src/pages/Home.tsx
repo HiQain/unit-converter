@@ -27,6 +27,7 @@ import {
   convertTemperature,
   convertFuel,
 } from "@/lib/converters";
+import { Button } from "@/components/ui/button";
 
 type CategoryKey =
   | "length"
@@ -59,6 +60,7 @@ const CATEGORIES: {
 export default function Home() {
   const [active, setActive] = useState<CategoryKey>("length");
   const [dark, setDark] = useState(false);
+  const year = new Date().getFullYear();
 
   const toggleDark = () => {
     const next = !dark;
@@ -67,7 +69,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
       {/* Header */}
       <header className="border-b bg-card/50 backdrop-blur sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
@@ -97,7 +99,7 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6">
           {/* Sidebar nav */}
           <nav className="lg:sticky lg:top-24 lg:self-start">
@@ -243,6 +245,23 @@ export default function Home() {
           </section>
         </div>
       </main>
+
+      <footer className="border-t bg-card/50 backdrop-blur">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-muted-foreground">
+            © {year} Hiqain. All rights reserved.
+          </p>
+          <Button asChild>
+            <a
+              href="https://hiqain.com/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Powered By Hiqain Pvt Ltd
+            </a>
+          </Button>
+        </div>
+      </footer>
     </div>
   );
 }
