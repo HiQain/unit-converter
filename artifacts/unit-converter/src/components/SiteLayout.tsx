@@ -1,6 +1,8 @@
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import { Moon, Sun } from "lucide-react";
+import { LanguageBar } from "./LanguageBar";
+import { LanguageSelector } from "./LanguageBar";
 
 type SiteLayoutProps = {
   children: ReactNode;
@@ -11,9 +13,30 @@ type SiteLayoutProps = {
 const footerLinks = [
   { href: "/", label: "Home" },
   { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact Us" },
+  { href: "/disclaimer", label: "Disclaimer" },
   { href: "/privacy-policy", label: "Privacy Policy" },
   { href: "/terms-of-service", label: "Terms of Service" },
 ];
+
+const THEME_STORAGE_KEY = "hiqain-theme";
+
+function getInitialDarkMode() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+  if (storedTheme === "dark") {
+    return true;
+  }
+
+  if (storedTheme === "light") {
+    return false;
+  }
+
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+}
 
 export function SiteLayout({
   children,
@@ -21,11 +44,16 @@ export function SiteLayout({
   subtitle = "Fast, accurate conversions across 9 categories",
 }: SiteLayoutProps) {
   const [location] = useLocation();
-  const dark = document.documentElement.classList.contains("dark");
+  const [dark, setDark] = useState(getInitialDarkMode);
   const year = new Date().getFullYear();
 
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+    window.localStorage.setItem(THEME_STORAGE_KEY, dark ? "dark" : "light");
+  }, [dark]);
+
   const toggleDark = () => {
-    document.documentElement.classList.toggle("dark", !dark);
+    setDark((current) => !current);
   };
 
   return (
@@ -43,14 +71,17 @@ export function SiteLayout({
               </p>
             </div>
           </Link>
-          <button
-            onClick={toggleDark}
-            className="w-10 h-10 rounded-lg border bg-background hover:bg-accent transition flex items-center justify-center shrink-0"
-            aria-label="Toggle theme"
-            title="Toggle theme"
-          >
-            {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          <div className="flex gap-5">
+            <LanguageSelector className="h-10 w-[148px] bg-background" />
+            <button
+              onClick={toggleDark}
+              className="w-10 h-10 rounded-lg border bg-background hover:bg-accent transition flex items-center justify-center shrink-0"
+              aria-label="Toggle theme"
+              title="Toggle theme"
+            >
+              {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
+          </div>
         </div>
       </header>
 
@@ -58,49 +89,67 @@ export function SiteLayout({
         {children}
       </main>
 
-      <footer className="border-t bg-card/50 backdrop-blur">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 grid gap-3 text-center md:grid-cols-[1fr_auto_1fr] md:items-center">
-          <p className="text-sm text-muted-foreground md:text-left">
-            &copy; {year} Hiqain. All rights reserved.
-          </p>
+      <footer className="border-t bg-muted/30">
+        <div className="container mx-auto max-w-6xl px-4 py-6 text-sm text-muted-foreground">
+          <div className="grid gap-8 md:grid-cols-[1.2fr_1fr_1fr]">
+            <div className="space-y-3 text-center md:text-left">
+              <p className="text-base font-semibold text-foreground">Phone Number Formatter</p>
+              <p className="max-w-md leading-6">
+                Simple tools for formatting and validating phone numbers with quick access to the
+                site information you may need.
+              </p>
+            </div>
 
-          <nav
-            aria-label="Footer navigation"
-            className="flex flex-wrap items-center justify-center gap-2 text-sm"
-          >
-            {footerLinks.map((link, index) => {
-              const isActive = location === link.href;
-              return (
-                <span key={link.href} className="flex items-center gap-2">
-                  {index > 0 && (
-                    <span className="text-muted-foreground" aria-hidden="true">
-                      |
-                    </span>
-                  )}
+            <nav aria-label="Footer" className="space-y-3 text-center md:text-left">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground/80">
+                Quick Links
+              </p>
+              <div className="flex flex-col gap-2">
+                {footerLinks.map((link) => (
                   <Link
+                    key={link.href}
                     href={link.href}
-                    className={`transition hover:text-blue-600 hover:underline ${
-                      isActive ? "text-foreground font-medium" : "text-muted-foreground"
-                    }`}
+                    className="transition-colors hover:text-primary hover:underline"
                   >
                     {link.label}
                   </Link>
-                </span>
-              );
-            })}
-          </nav>
+                ))}
+              </div>
+            </nav>
 
-          <div className="md:text-right">
-            <a
-              href="https://hiqain.com/"
-              target="_blank"
-              rel="noreferrer"
-              className="text-sm text-muted-foreground transition hover:text-blue-600 hover:underline"
-            >
-              Powered by Hiqain Pvt Ltd
-            </a>
+            <div className="space-y-3 text-center md:text-right">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground/80">
+                Partner
+              </p>
+              <a
+                href="https://hiqain.com/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex text-base font-medium text-foreground transition-colors hover:text-primary hover:underline"
+              >
+                Powered by Hiqain
+              </a>
+              <p className="leading-6">
+                Product, engineering, and growth support for practical web tools.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6 border-t border-border/70 pt-4 text-center text-xs leading-6">
+            <p>Copyright © 2026 Phone Number Formatter. All rights reserved.</p>
           </div>
         </div>
+
+        <div className="px-4 pb-4">
+          <div className="mx-auto max-w-6xl rounded-2xl border border-border/60 bg-gray-200 px-4 py-3 text-center text-sm leading-6 text-slate-800 shadow-sm">
+            <span className="font-semibold text-amber-700">Disclaimer:</span>{" "}
+            Hiqain is an independent platform. We are{" "}
+            <span className="font-semibold text-black">not affiliated</span> with any government
+            body or official examination authority.
+          </div>
+        </div>
+
+        <LanguageBar />
       </footer>
     </div>
   );

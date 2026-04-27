@@ -1,27 +1,9 @@
 import { SiteLayout } from "@/components/SiteLayout";
-
-const posts = [
-  {
-    title: "Why Accurate Unit Conversion Still Matters in 2026",
-    date: "April 18, 2026",
-    excerpt:
-      "Small conversion mistakes can create big problems in engineering, logistics, education, and day-to-day planning. Here is why dependable tools still matter.",
-  },
-  {
-    title: "Metric vs Imperial: Choosing the Right Format for Your Audience",
-    date: "April 12, 2026",
-    excerpt:
-      "A simple guide to deciding when to show metric values, imperial values, or both when building products for global users.",
-  },
-  {
-    title: "Designing Faster Conversion Workflows for Teams",
-    date: "April 4, 2026",
-    excerpt:
-      "From manufacturing floors to classroom dashboards, these patterns help teams reduce friction and convert values with confidence.",
-  },
-];
+import { getStoredBlogs } from "@/lib/blog-store";
 
 export default function Blog() {
+  const posts = getStoredBlogs();
+
   return (
     <SiteLayout
       title="Hiqain Blog"
@@ -44,9 +26,16 @@ export default function Blog() {
         <section className="grid gap-4">
           {posts.map((post) => (
             <article
-              key={post.title}
+              key={post.id}
               className="rounded-2xl border bg-card p-6 shadow-sm"
             >
+              {post.imageDataUrl && (
+                <img
+                  src={post.imageDataUrl}
+                  alt={post.title}
+                  className="mb-4 h-48 w-full rounded-xl object-cover"
+                />
+              )}
               <p className="text-sm text-muted-foreground">{post.date}</p>
               <h3 className="mt-2 text-xl font-semibold">{post.title}</h3>
               <p className="mt-3 text-muted-foreground">{post.excerpt}</p>
