@@ -1,3 +1,4 @@
+import { Globe } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   Select,
@@ -155,6 +156,11 @@ const FOOTER_LANGUAGE_OPTIONS = LANGUAGE_OPTIONS.filter((language) =>
 );
 
 type LanguageCode = (typeof LANGUAGE_OPTIONS)[number]["code"];
+
+function formatLanguageTriggerLabel(languageCode: string) {
+  const [baseCode] = languageCode.split("-");
+  return baseCode ? `${baseCode.charAt(0).toUpperCase()}${baseCode.slice(1)}` : "En";
+}
 
 function getGoogleTranslateCookieValue(languageCode: string) {
   return `/en/${languageCode}`;
@@ -335,15 +341,19 @@ export function LanguageSelector({
   className?: string;
 }) {
   const { selectedLanguage, selectLanguage } = useTranslatorState();
+  const triggerLabel = formatLanguageTriggerLabel(selectedLanguage);
 
   return (
     <Select value={selectedLanguage} onValueChange={selectLanguage}>
       <SelectTrigger
-        className={className ?? "h-9 w-[156px] bg-background"}
+        className={className ?? "h-9 w-[118px] bg-background"}
         data-testid="select-language"
         aria-label="Select language"
       >
-        <SelectValue placeholder="Language" />
+        <div className="flex items-center gap-2">
+          <Globe className="h-4 w-4 text-muted-foreground" />
+          <SelectValue placeholder="En">{triggerLabel}</SelectValue>
+        </div>
       </SelectTrigger>
       <SelectContent className="max-h-72 overflow-y-auto">
         {LANGUAGE_OPTIONS.map((language) => (
@@ -361,8 +371,8 @@ export function LanguageBar() {
 
   return (
     <div className="border-t bg-background/95">
-      <div className="container mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4">
-        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm font-semibold text-foreground">
+      <div className="container mx-auto flex max-w-6xl flex-col gap-3 px-4 py-5">
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-sm font-semibold leading-none text-foreground">
           {FOOTER_LANGUAGE_OPTIONS.map((language) => {
             const isActive = selectedLanguage === language.code;
 
@@ -372,7 +382,7 @@ export function LanguageBar() {
                 type="button"
                 onClick={() => selectLanguage(language.code)}
                 className={[
-                  "cursor-pointer transition-colors hover:text-primary",
+                  "cursor-pointer py-1 transition-colors hover:text-primary",
                   language.italic ? "italic" : "",
                   isActive ? "text-primary" : "text-foreground",
                 ]
@@ -384,16 +394,7 @@ export function LanguageBar() {
               </button>
             );
           })}
-        </div>
-
-        <div className="min-h-5 text-center text-xs text-muted-foreground">
-          <div id="google_translate_element" className="sr-only" />
-          {translatorStatus === "ready" ? "Select a language to translate this page." : null}
-          {translatorStatus === "loading" ? "Loading translator..." : null}
-          {translatorStatus === "error"
-            ? "Translator could not load on this connection. Try refreshing the page."
-            : null}
-        </div>
+        </div> 
       </div>
     </div>
   );

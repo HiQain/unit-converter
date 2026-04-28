@@ -72,7 +72,7 @@ export function SiteLayout({
             </div>
           </Link>
           <div className="flex gap-5">
-            <LanguageSelector className="h-10 w-[148px] bg-background" />
+            <LanguageSelector className="h-10 w-25 bg-background" />
             <button
               onClick={toggleDark}
               className="w-10 h-10 rounded-lg border bg-background hover:bg-accent transition flex items-center justify-center shrink-0"
@@ -90,67 +90,61 @@ export function SiteLayout({
       </main>
 
       <footer className="border-t bg-muted/30">
-        <div className="container mx-auto max-w-6xl px-4 py-6 text-sm text-muted-foreground">
-          <div className="grid gap-8 md:grid-cols-[1.2fr_1fr_1fr]">
-            <div className="space-y-3 text-center md:text-left">
-              <p className="text-base font-semibold text-foreground">Phone Number Formatter</p>
-              <p className="max-w-md leading-6">
-                Simple tools for formatting and validating phone numbers with quick access to the
-                site information you may need.
-              </p>
-            </div>
-
-            <nav aria-label="Footer" className="space-y-3 text-center md:text-left">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground/80">
-                Quick Links
-              </p>
-              <div className="flex flex-col gap-2">
-                {footerLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="transition-colors hover:text-primary hover:underline"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            </nav>
-
-            <div className="space-y-3 text-center md:text-right">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground/80">
-                Partner
-              </p>
-              <a
-                href="https://hiqain.com/"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex text-base font-medium text-foreground transition-colors hover:text-primary hover:underline"
-              >
-                Powered by Hiqain
-              </a>
-              <p className="leading-6">
-                Product, engineering, and growth support for practical web tools.
-              </p>
-            </div>
+      <div className="container mx-auto max-w-6xl px-4 py-6 text-sm text-muted-foreground">
+        <div className="grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-start">
+          <div className="space-y-3 text-center md:text-left">
+            <p className="text-base font-semibold text-foreground">Unit Converter</p>
+            <p className="max-w-80 leading-6">
+              Simple tool for converting units quickly and accurately.
+            </p>
           </div>
 
-          <div className="mt-6 border-t border-border/70 pt-4 text-center text-xs leading-6">
-            <p>Copyright © 2026 Phone Number Formatter. All rights reserved.</p>
-          </div>
+          <nav aria-label="Footer" className="space-y-3 text-center md:text-left">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground/80">
+              Quick Links
+            </p>
+            <div className="flex flex-col gap-2">
+              {footerLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="inline-flex w-fit transition-all duration-200 hover:translate-x-1 hover:text-primary hover:underline"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </nav>
         </div>
 
-        <div className="px-4 pb-4">
-          <div className="mx-auto max-w-6xl rounded-2xl border border-border/60 bg-gray-200 px-4 py-3 text-center text-sm leading-6 text-slate-800 shadow-sm">
+        <div className="mt-6">
+          <div className="rounded-2xl border border-border/60 bg-gray-200 px-4 py-3 text-center text-sm leading-6 text-slate-800 shadow-sm">
             <span className="font-semibold text-amber-700">Disclaimer:</span>{" "}
             Hiqain is an independent platform. We are{" "}
             <span className="font-semibold text-black">not affiliated</span> with any government
             body or official examination authority.
           </div>
         </div>
+      </div>
 
-        <LanguageBar />
-      </footer>
+      <LanguageBar />
+
+      <div className="container mx-auto max-w-6xl px-4 pb-4 text-sm text-muted-foreground">
+        <div className="flex flex-col items-center justify-between gap-3 border-t border-border/70 pt-4 text-center text-xs leading-6 md:flex-row">
+          <p>Copyright © 2026 Hiqain Share. All rights reserved.</p>
+          <div className="md:text-right">
+            <a
+              href="https://hiqain.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex text-base font-medium text-foreground transition-colors hover:text-primary hover:underline"
+            >
+              Powered by Hiqain
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
     </div>
   );
 }
