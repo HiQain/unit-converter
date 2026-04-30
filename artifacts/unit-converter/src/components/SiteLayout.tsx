@@ -116,15 +116,6 @@ export function SiteLayout({
             </div>
           </nav>
         </div>
-
-        <div className="mt-6">
-          <div className="rounded-2xl border border-border/60 bg-gray-200 px-4 py-3 text-center text-sm leading-6 text-slate-800 shadow-sm">
-            <span className="font-semibold text-amber-700">Disclaimer:</span>{" "}
-            Hiqain is an independent platform. We are{" "}
-            <span className="font-semibold text-black">not affiliated</span> with any government
-            body or official examination authority.
-          </div>
-        </div>
       </div>
 
       <LanguageBar />
@@ -137,7 +128,7 @@ export function SiteLayout({
               href="https://hiqain.com/"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex text-base font-medium text-foreground transition-colors hover:text-primary hover:underline"
+              className="inline-flex font-medium text-foreground transition-colors hover:text-primary hover:underline"
             >
               Powered by Hiqain
             </a>
